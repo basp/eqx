@@ -37,16 +37,16 @@ export default class Example02 extends Phaser.Scene {
         const weapon1 = new Laser(this.physics.world, this, {
             texture: 'laser',
             bodySize: { width: 4, height: 16 },
-            rate: 5,
+            rate: 20,
             velocity: 400,
         })
         const weapon2 = new Laser(this.physics.world, this, {
             texture: 'laser',
             bodySize: { width: 4, height: 16 },
-            rate: 5,
-            velocity: 800,
+            rate: 10,
+            velocity: 1000,
         })
-        this.weapon = weapon1;
+        this.weapon = weapon2;
         this.player = new Player(this, 240, 600, 'player')
             .setCollideWorldBounds(true)
             .setAngle(-90)
