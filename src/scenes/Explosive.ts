@@ -1,14 +1,14 @@
 export default class Explosive extends Phaser.GameObjects.GameObject {
     private readonly fire: Phaser.GameObjects.Particles.ParticleEmitterManager
     private readonly smoke: Phaser.GameObjects.Particles.ParticleEmitterManager
-    private readonly temp: Phaser.GameObjects.Particles.ParticleEmitterManager
+    private readonly sparks: Phaser.GameObjects.Particles.ParticleEmitterManager
     private readonly booms = ['boom0', 'boom1', 'boom2', 'boom3', 'boom4']
 
     constructor(scene: Phaser.Scene) {
         super(scene, 'explosive')
         this.fire = this.scene.add.particles('yellow')
         this.smoke = this.scene.add.particles('smoke')
-        this.temp = this.scene.add.particles('red')
+        this.sparks = this.scene.add.particles('red')
     }
 
     explode(obj: Phaser.Physics.Arcade.Sprite) {
@@ -16,9 +16,15 @@ export default class Explosive extends Phaser.GameObjects.GameObject {
         this.scene.sound.play(boom, {
             volume: 0.5,
         })
+        this.explodeSparks(obj)
+        this.explodeFire(obj)
+        this.explodeSmoke(obj)
+    }
+
+    private explodeSparks(obj: Phaser.Physics.Arcade.Sprite) {
         const count = Phaser.Math.Between(5, 10)
         const lifespan = Phaser.Math.Between(300, 400)
-        const emitter = this.temp.createEmitter({
+        const emitter = this.sparks.createEmitter({
             speed: { min: -400, max: 400 },
             scale: { start: 0.2, end: 0 },
             blendMode: Phaser.BlendModes.ADD,
@@ -28,8 +34,6 @@ export default class Explosive extends Phaser.GameObjects.GameObject {
         this.scene.time.delayedCall(lifespan, () => {
             this.fire.removeEmitter(emitter)
         })
-        this.explodeFire(obj)
-        this.explodeSmoke(obj)
     }
 
     private explodeFire(obj: Phaser.Physics.Arcade.Sprite) {
