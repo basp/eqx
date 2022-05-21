@@ -36,10 +36,17 @@ export default class EnemyGroup extends Phaser.Physics.Arcade.Group {
             this.world.add(enemy.body)
         }
         enemy.once(Enemy.OUT_OF_BOUNDS, (obj: Enemy) => {
-            this.world.remove(obj.body)
-            this.scene.tweens.killTweensOf(obj)
+            // console.log('ok')
+            // this.killAndHide(obj)
+            // this.world.remove(obj.body)
+            // this.scene.tweens.killTweensOf(obj)
+
             obj.setActive(false)
             obj.setVisible(false)
+            this.world.remove(obj.body)
+            obj.body.reset(-1000, -1000)
+            this.scene.tweens.killTweensOf(obj)
+
         })
         return enemy
     }

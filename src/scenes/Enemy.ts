@@ -36,6 +36,10 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         return this
     }
 
+    kill(): void {
+        this.emit(Enemy.OUT_OF_BOUNDS, this)
+    }
+
     protected escape(): boolean {
         return false
     }    

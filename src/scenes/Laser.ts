@@ -61,8 +61,9 @@ export default class Laser extends Phaser.Physics.Arcade.Group {
         projectile.once(Projectile.OUT_OF_BOUNDS, (obj: Projectile) => {
             obj.setActive(false)
             obj.setVisible(false)
-            this.scene.tweens.killTweensOf(obj)
             this.world.remove(obj.body)
+            obj.body.reset(-1000, -1000)
+            this.scene.tweens.killTweensOf(obj)
         })
         return projectile
     }

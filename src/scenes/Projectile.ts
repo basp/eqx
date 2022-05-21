@@ -5,11 +5,15 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
         super(scene, x, y, texture)
     }    
 
-    public fire(velocity: number): void {
+    fire(velocity: number): void {
         this.body.reset(this.x, this.y)
         this.setActive(true)
         this.setVisible(true)
         this.setVelocityY(-velocity)
+    }
+
+    kill(): void {
+        this.emit(Projectile.OUT_OF_BOUNDS, this)
     }
 
     protected preUpdate(time: number, delta: number): void {

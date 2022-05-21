@@ -1,6 +1,8 @@
 import Player from './Player.js'
+import Enemy from './Enemy.js'
 import Laser from './Laser.js'
 import EnemyGroup from './EnemyGroup.js'
+import Projectile from './Projectile.js'
 
 export default class Example02 extends Phaser.Scene {
     space: Phaser.Input.Keyboard.Key
@@ -24,7 +26,7 @@ export default class Example02 extends Phaser.Scene {
         const weapon1 = new Laser(this.physics.world, this, {
             texture: 'laser',
             bodySize: { width: 4, height: 16 },
-            rate: 10,
+            rate: 5,
             velocity: 400,
         })
         const weapon2 = new Laser(this.physics.world, this, {
@@ -92,6 +94,16 @@ export default class Example02 extends Phaser.Scene {
             }
         })
         this.status = this.add.text(16, 16, "TILT")
+        this.physics.add.collider(this.weapon, this.enemies, (projectile: Projectile, enemy: Enemy) => {
+            if(!projectile.active) {
+                return
+            }
+            if(!enemy.active) {
+                return
+            }
+            projectile.kill()
+            enemy.kill()
+        });
     }
     
     update(time: number, delta: number): void {
