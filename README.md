@@ -1,0 +1,2 @@
+# eqx
+EQX game
