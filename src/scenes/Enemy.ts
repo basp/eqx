@@ -8,6 +8,7 @@ interface EnemyConfig {
 
 export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     static OUT_OF_BOUNDS = 'ENEMY_OUT_OF_BOUNDS'
+    static DESTROYED = 'ENEMY_DESTROYED'
 
     public speed = 10
     public escapeAngle = 0
@@ -37,6 +38,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     }
 
     kill(): void {
+        this.emit(Enemy.DESTROYED, this)
         this.emit(Enemy.OUT_OF_BOUNDS, this)
     }
 

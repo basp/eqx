@@ -58,6 +58,9 @@ export default class Laser extends Phaser.Physics.Arcade.Group {
             this.world.add(projectile.body)
         }
         projectile.fire(this.velocity)
+        this.scene.sound.play('laser', {
+            volume: 0.8
+        })
         projectile.once(Projectile.OUT_OF_BOUNDS, (obj: Projectile) => {
             obj.setActive(false)
             obj.setVisible(false)
