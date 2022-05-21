@@ -1,11 +1,3 @@
-interface EnemyConfig {
-    angle: number,
-    speed: number,
-    escapeAngle: number,
-    escapeSpeed: number,
-    texture: string
-}
-
 export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     static OUT_OF_BOUNDS = 'ENEMY_OUT_OF_BOUNDS'
     static DESTROYED = 'ENEMY_DESTROYED'
@@ -42,7 +34,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.emit(Enemy.OUT_OF_BOUNDS, this)
     }
 
-    protected escape(): boolean {
+    protected evade(): boolean {
         return false
     }    
 
@@ -56,7 +48,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
             .setToPolar(this.rotation, 0.1)
         this.x += u.x * this.speed * delta * 0.1
         this.y += u.y * this.speed * delta * 0.1
-        if (this.escape()) {
+        if (this.evade()) {
             this.scene.tweens.add({
                 targets: [this],
                 speed: this.escapeSpeed,

@@ -50,12 +50,14 @@ export default class Explosive extends Phaser.GameObjects.GameObject {
     private explodeSmoke(obj: Phaser.Physics.Arcade.Sprite) {
         const count = Phaser.Math.Between(3, 5)
         const speed = Phaser.Math.Between(10, 50)
-        const lifespan = Phaser.Math.Between(800, 1000)
+        const lifespan = Phaser.Math.Between(1000, 2000)
         const emitter = this.smoke.createEmitter({
             speed: { min: -speed, max: speed },
-            scale: { start: 0.1, end: 0.5 },
+            scale: { start: 0.1, end: 0.7 },
             blendMode: Phaser.BlendModes.SCREEN,
-            rotate: { min: 0, max: 360 },
+            rotate: { min: 0, max: 280 },
+            gravityX: 200,
+            gravityY: -100,
             lifespan: lifespan,
         })
         emitter.setAlpha((p, k, t: number) => 0.8 - 2 * Math.abs(t - 0.4))
