@@ -12,7 +12,7 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
         this.setVelocityY(-velocity)
     }
 
-    kill(): void {
+    despawn(): void {
         this.emit(Projectile.OUT_OF_BOUNDS, this)
     }
 

@@ -42,16 +42,20 @@ export default class EnemyGroup extends Phaser.Physics.Arcade.Group {
             enemy.setVisible(true)
             this.world.add(enemy.body)
         }
-        enemy.once(Enemy.OUT_OF_BOUNDS, (obj: Enemy) => {
-            this.scene.tweens.killTweensOf(obj)
-            this.world.remove(obj.body)
-            obj.body.reset(-1000, -1000)
-            obj.setActive(false)
-            obj.setVisible(false)
-        })
-        enemy.once(Enemy.DESTROYED, (obj: Enemy) => {
-            this.explode(obj)
-        })
+        enemy
+            .removeListener(Enemy.OUT_OF_BOUNDS)
+            .once(Enemy.OUT_OF_BOUNDS, (obj: Enemy) => {
+                this.scene.tweens.killTweensOf(obj)
+                this.world.remove(obj.body)
+                obj.body.reset(-1000, -1000)
+                obj.setActive(false)
+                obj.setVisible(false)
+            })
+        enemy
+            .removeListener(Enemy.DESTROYED)
+            .once(Enemy.DESTROYED, (obj: Enemy) => {
+                this.explode(obj)
+            })
         return enemy
     }
 
@@ -63,12 +67,11 @@ export default class EnemyGroup extends Phaser.Physics.Arcade.Group {
         this.explodeFire(obj)
         this.explodeSmoke(obj)
 
-        const count = Phaser.Math.Between(10, 50)
+        const count = Phaser.Math.Between(5, 10)
         const lifespan = Phaser.Math.Between(300, 400)
         const emitter = this.temp.createEmitter({
             speed: { min: -400, max: 400 },
             scale: { start: 0.2, end: 0 },
-            quantity: 1,
             blendMode: Phaser.BlendModes.ADD,
             lifespan: lifespan,
         })

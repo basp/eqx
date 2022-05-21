@@ -10,6 +10,7 @@ export default class Example02 extends Phaser.Scene {
     weapon: Laser
     enemies: EnemyGroup
     status: Phaser.GameObjects.Text
+    score = 0
 
     constructor() {
         super('example-02')
@@ -56,20 +57,26 @@ export default class Example02 extends Phaser.Scene {
         this.time.delayedCall(1000, () => {
             for (let i = 0; i < 10; i++) {
                 this.time.delayedCall(i * 500, () => {
-                    this.enemies
+                    const enemy = this.enemies
                         .spawn(0 + 32, -32)
                         .setAngle(90 - 20)
                         .setSpeed(20)
+                    enemy.once(Enemy.DESTROYED, () => {
+                        this.score += 1
+                    });
                 })
             }          
         })
         this.time.delayedCall(4000, () => {
             for (let i = 0; i < 10; i++) {
                 this.time.delayedCall(i * 500, () => {
-                    this.enemies
+                    const enemy = this.enemies
                         .spawn(480 - 32, -32)
                         .setAngle(90 + 20)
                         .setSpeed(20)
+                    enemy.once(Enemy.DESTROYED, () => {
+                        this.score += 1
+                    });    
                 })
             }          
         })
@@ -81,10 +88,13 @@ export default class Example02 extends Phaser.Scene {
                     const dx = this.player.x - x
                     const dy = this.player.y + 32
                     const angle = new Phaser.Math.Vector2(dx, dy).angle()
-                    this.enemies
+                    const enemy = this.enemies
                         .spawn(x, -32)
                         .setRotation(angle)
                         .setSpeed(20)
+                    enemy.once(Enemy.DESTROYED, () => {
+                        this.score += 1
+                    });    
                 })
             }
         })
@@ -96,10 +106,13 @@ export default class Example02 extends Phaser.Scene {
                     const dx = this.player.x - x
                     const dy = this.player.y + 32
                     const angle = new Phaser.Math.Vector2(dx, dy).angle()
-                    this.enemies
+                    const enemy = this.enemies
                         .spawn(x, -32)
                         .setRotation(angle)
                         .setSpeed(20)
+                    enemy.once(Enemy.DESTROYED, () => {
+                        this.score += 1
+                    });    
                 })
             }
         })
@@ -111,7 +124,7 @@ export default class Example02 extends Phaser.Scene {
             if(!enemy.active) {
                 return
             }
-            projectile.kill()
+            projectile.despawn()
             enemy.kill()
         });
     }
@@ -125,7 +138,8 @@ export default class Example02 extends Phaser.Scene {
         const enemies = this.enemies.countActive(true)
         const lines = [
             `Active bullets: ${bullets}`,
-            `Active enemies: ${enemies}`
+            `Active enemies: ${enemies}`,
+            `Score         : ${this.score}`
         ]
         this.status.text = lines.join('\n')
     }
