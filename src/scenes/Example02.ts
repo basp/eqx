@@ -20,6 +20,7 @@ export default class Example02 extends Phaser.Scene {
         this.load.image('player', 'assets/ship_0000.png')
         this.load.image('laser', 'assets/laser_0001.png')
         this.load.image('yellow', 'assets/yellow.png')
+        this.load.image('red', 'assets/red.png')
         this.load.image('smoke', 'assets/smoke_01.png')
         this.load.audio('boom0', 'assets/explosionCrunch_000.ogg')
         this.load.audio('boom1', 'assets/explosionCrunch_001.ogg')
