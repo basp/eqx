@@ -1,11 +1,9 @@
 import Player from './Player.js'
 import Laser from './Laser.js'
-import Enemy from './Enemy.js'
 import EnemyGroup from './EnemyGroup.js'
 
 export default class Example02 extends Phaser.Scene {
     space: Phaser.Input.Keyboard.Key
-
     player: Player
     weapon: Laser
     enemies: EnemyGroup
@@ -39,17 +37,60 @@ export default class Example02 extends Phaser.Scene {
         this.player = new Player(this, 240, 600, 'player')
             .setCollideWorldBounds(true)
             .setAngle(-90)
-
         this.enemies = new EnemyGroup(this.physics.world, this, {
             bodySize: { width: 32, height: 32 },
             texture: 'enemy',
         })
-
-        this.enemies
-            .spawn(32, -32)
-            .setAngle(90)
-            .setSpeed(50)
-
+        this.time.delayedCall(1000, () => {
+            for (let i = 0; i < 10; i++) {
+                this.time.delayedCall(i * 500, () => {
+                    this.enemies
+                        .spawn(0 + 32, -32)
+                        .setAngle(90 - 20)
+                        .setSpeed(20)
+                })
+            }          
+        })
+        this.time.delayedCall(4000, () => {
+            for (let i = 0; i < 10; i++) {
+                this.time.delayedCall(i * 500, () => {
+                    this.enemies
+                        .spawn(480 - 32, -32)
+                        .setAngle(90 + 20)
+                        .setSpeed(20)
+                })
+            }          
+        })
+        this.time.delayedCall(8000, () => {
+            const interval = 8000 / 20
+            for (let i = 0; i < 20; i++) {
+                this.time.delayedCall(i * interval, () => {
+                    const x = Phaser.Math.Between(0 + 32, 480 - 32)
+                    const dx = this.player.x - x
+                    const dy = this.player.y + 32
+                    const angle = new Phaser.Math.Vector2(dx, dy).angle()
+                    this.enemies
+                        .spawn(x, -32)
+                        .setRotation(angle)
+                        .setSpeed(20)
+                })
+            }
+        })
+        this.time.delayedCall(18000, () => {
+            const interval = 10000 / 30
+            for (let i = 0; i < 30; i++) {
+                this.time.delayedCall(i * interval, () => {
+                    const x = Phaser.Math.Between(0 + 32, 480 - 32)
+                    const dx = this.player.x - x
+                    const dy = this.player.y + 32
+                    const angle = new Phaser.Math.Vector2(dx, dy).angle()
+                    this.enemies
+                        .spawn(x, -32)
+                        .setRotation(angle)
+                        .setSpeed(20)
+                })
+            }
+        })
         this.status = this.add.text(16, 16, "TILT")
     }
     
