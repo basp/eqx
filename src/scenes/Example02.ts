@@ -135,8 +135,8 @@ export default class Example02 extends Phaser.Scene {
             }
         })
         this.time.delayedCall(35000, () => {
-            const interval = 10000 / 30
-            for (let i = 0; i < 30; i++) {
+            const interval = 15000 / 60
+            for (let i = 0; i < 60; i++) {
                 this.time.delayedCall(i * interval, () => {
                     const x = Phaser.Math.Between(0 + 32, 480 - 32)
                     const dx = this.player.x - x
